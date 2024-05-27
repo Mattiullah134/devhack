@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import logo from "@/public/logo.png";
+// import logo from "@/public/logo.png";
 const NavBar = () => {
   return (
     <div>
@@ -13,12 +13,12 @@ const NavBar = () => {
           >
             <span className="ml-3 text-xl">Image Gennie</span>
 
-            <div className="flex lg:flex-1">
+            {/* <div className="flex lg:flex-1">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <img className="h-8 w-auto" src={{ url: logo }} alt="" />
               </a>
-            </div>
+            </div> */}
             <div className="flex lg:hidden">
               <button
                 type="button"
