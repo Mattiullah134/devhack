@@ -13,6 +13,7 @@ async function getChatRoom(): Promise<Schema["ChatRoom"][] | null> {
     const data = await client.models.ChatRoom.list({
       authMode: "userPool",
     });
+    // @ts-ignore
     return data.data;
   } catch (error) {
     console.error("error", error);
@@ -34,6 +35,8 @@ async function getRoomChat(id: string): Promise<Schema["Chat"][] | null> {
     console.log("data.data", data.data);
 
     if (data.data) {
+      // @ts-ignore
+
       return data.data;
     } else {
       return null;

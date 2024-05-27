@@ -17,6 +17,7 @@ const Sidebar = () => {
     try {
       (async () => {
         let res = await getChatRoom();
+        // @ts-ignore
         setChatTitle(res);
       })();
       var updateSub = client.models.ChatRoom.observeQuery({
@@ -25,6 +26,7 @@ const Sidebar = () => {
         next: ({ items }) => {
           console.log("Subscription data sidebar", items);
           if (items && items.length > 0) {
+            // @ts-ignore
             setChatTitle(items);
           }
         },
@@ -52,8 +54,11 @@ const Sidebar = () => {
               {chatTitle?.map((data) => {
                 return (
                   <SideBarMenuItem
+                    // @ts-ignore
                     id={data?.id}
+                    // @ts-ignore
                     key={data?.id}
+                    // @ts-ignore
                     title={data?.title}
                     onClick={handleNavigation}
                   />

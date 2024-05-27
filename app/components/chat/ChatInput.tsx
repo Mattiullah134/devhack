@@ -14,25 +14,7 @@ const ChatInput = () => {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   let authData = useGetUserDetails();
-  function decodeBase64Image(base64String: any) {
-    // Decode the base64 image data
-    const decodedBytes = atob(base64String);
 
-    // Convert decoded bytes to a Uint8Array (array of byte values)
-    const uint8Array = new Uint8Array(decodedBytes.length);
-    for (let i = 0; i < decodedBytes.length; i++) {
-      uint8Array[i] = decodedBytes.charCodeAt(i);
-    }
-
-    // Optional: Verify Decoding (create a Blob and try to display it)
-    const blob = new Blob([uint8Array], { type: "image/png" }); // Replace with appropriate content type
-    const url = URL.createObjectURL(blob);
-    const blobToSave = new Blob([uint8Array], { type: "image/png" });
-    setImage(url);
-
-    // You can now use the uint8Array for further processing (e.g., upload)
-    return blobToSave;
-  }
   const handleGenPrompt = async () => {
     if (prompt.length > 0) {
       setLoading(true);

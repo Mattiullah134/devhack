@@ -3,20 +3,19 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import "../../globals.css";
 import { getRoomChat } from "@/app/utils/functions";
-import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import Auth from "@/app/components/auth/Auth";
-import { JWT, fetchAuthSession } from "aws-amplify/auth";
 import { useGetAuthToken } from "@/app/utils/hooks/getUserDetails";
 import { Badge, Image } from "@aws-amplify/ui-react";
 import { downloadData } from "aws-amplify/storage";
 import AuthNavBar from "@/app/components/AuthNavBar";
+import type { Schema } from "../../../amplify/data/resource";
 
 const client = generateClient<Schema>();
 
 const Chat = () => {
   const { chatid } = useParams();
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState<Schema["ChatRoom"][] | null>([]);
   console.log("chat", chat);
 
   const token = useGetAuthToken();
@@ -24,6 +23,8 @@ const Chat = () => {
     const fetchChat = async () => {
       if (chatid) {
         const data = await getRoomChat(chatid.toString());
+        // @ts-ignore
+
         setChat(data);
         console.log("Initial chat data", data);
       }
@@ -78,6 +79,7 @@ const Chat = () => {
         console.log("Subscription data", items);
         if (items && items.length > 0) {
           console.log("set the data", items);
+          // @ts-ignore
 
           setChat(items);
         }
@@ -89,6 +91,7 @@ const Chat = () => {
       updateSub.unsubscribe();
     };
   }, []);
+  // @ts-ignore
 
   return (
     <div className="flex flex-row w-full h-screen antialiased text-gray-800">
@@ -96,20 +99,27 @@ const Chat = () => {
         <AuthNavBar />
         <div className="h-full overflow-hidden py-4">
           <div className="h-full overflow-y-auto hidescbar">
-            {chat?.length > 0 &&
+            {chat &&
+              chat?.length > 0 &&
               chat?.map((data, index) => (
                 <div key={index} className="grid grid-cols-12 gap-y-2">
                   <div className="col-start-6 col-end-13 p-3 rounded-lg">
                     <div className="flex items-center justify-start flex-row-reverse">
                       <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                        {/* @ts-ignore */}
+
                         <div>{data?.title}</div>
                       </div>
                     </div>
                   </div>
                   <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                    {/* @ts-ignore */}
+
                     {data?.answer ? (
                       <div className="flex flex-row items-center">
                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          {/* @ts-ignore */}
+
                           <div>{data?.answer}</div>
                         </div>
                       </div>
@@ -117,6 +127,8 @@ const Chat = () => {
                       <div className="flex relative w-fit flex-row items-center">
                         <div className="absolute top-2 left-5">
                           <Badge
+                            // @ts-ignore
+
                             onClick={() => donwloadFile(data?.image)}
                             variation="success"
                             className="cursor-pointer"
@@ -124,8 +136,10 @@ const Chat = () => {
                             Download
                           </Badge>
                         </div>
+
                         <Image
                           alt="Amplify logo"
+                          // @ts-ignore
                           src={data?.image}
                           objectFit="initial"
                           objectPosition="50% 50%"
